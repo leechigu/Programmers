@@ -12,8 +12,6 @@ public class 삼진법뒤집기 {
             }
 
         }
-
-
         three_n = three_n/3;
         int []arr = new int[cnt+1];
         for(int i=0;i<arr.length;i++){
