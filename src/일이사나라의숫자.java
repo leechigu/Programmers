@@ -11,25 +11,32 @@ public class 일이사나라의숫자 {
             num = num*3;
         }
         num = num/3;
-
         int[] arr = new int[count];
-        while(true){
-            arr[count-1]=n/num;
-            n = n-(arr[count-1]*num);
+
+        for(int i= arr.length-1;i>=0;i--){
+            arr[i] = n/num;
+            n = n-(arr[i]*num);
             num = num/3;
-            if(count==1)
-                break;
-            count--;
         }
-        for(int i=arr.length-1;i>=0;i--){
+        for(int i=0;i<arr.length;i++){
+            System.out.println(arr[i]);
+        }
+        int c=0;
+        for(int i=0;i<arr.length-1;i++){
             if(arr[i]==0){
-                if(arr[i+1]==4){
-                    arr[i+1]=2;
+                c++;
+                arr[i]=2;
+                if(c==1){
+                    arr[i] =4;
                 }
-                else{
+                if(arr[i+1]!=0){
                     arr[i+1]--;
+                    if(arr[i+1]==3){
+                        arr[i+1]--;
+                    }
+                    c=0;
                 }
-                arr[i]=4;
+                i--;
             }
         }
         String answer = "";
