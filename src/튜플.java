@@ -3,7 +3,6 @@ import java.util.*;
 public class 튜플 {
     public static String[] strings;
     public static void stringSlice(String s){
-
         ArrayList<String> stringArrayList =new ArrayList<>();
         String temp = "";
         for(int i=1;i<s.length()-1;i++) {
