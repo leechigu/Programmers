@@ -32,7 +32,6 @@ public class 튜플 {
         int cnt=0;
         for(int i=0;i<st.length();i++){
             if(st.charAt(i)==','){
-                re[cnt] = Integer.parseInt(temp);
                 temp="";
                 cnt++;
                 continue;
