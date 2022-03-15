@@ -1,87 +1,110 @@
 import java.util.*;
 
 public class 괄호변환 {
-
-
-    public static ArrayList<Character> u;
-    public static ArrayList<Character> v;
-
-
-
-
-    public boolean checkGoodSt(String st){
-        char temp = st.charAt(0);
-        if(temp==')')
-            return false;
-        int count = 1;
-        for(int i=1;i<st.length();i++){
-            if(st.charAt(i)=='('){
-                if(temp ==')'&&count!=0){
-                    return false;
-                }
-                temp ='(';
-                count++;
-            }
-            else{
-                temp = ')';
-                count--;
-                if(count<0)
-                    return false;
-            }
-        }
-        if(count==0)
+    public boolean isNul(String st){
+        if(st.length()==0)
             return true;
         else
             return false;
     }
-
-    public void getUandV(String st){
-
-        int countLeft =0;
-        int countRight =0;
-        int vStartPoint =1000;
+    public boolean isBlancedString(String st){
+        int cntLeft =0;
+        int cntRight = 0;
         for(int i=0;i<st.length();i++){
-            if((countLeft>0&&countRight>0)&&(countLeft==countRight)) {
-                vStartPoint = i;
+            if(st.charAt(i)=='(')
+                cntLeft++;
+            else
+                cntRight++;
+        }
+        if(cntLeft==cntRight)
+            return true;
+        else
+            return false;
+    }
+    public boolean isOptimal(String st){
+        if(st.length()<2)
+            return false;
+        if(!isBlancedString(st))
+            return false;
+        Stack<Character> stack = new Stack<>();
+        if(st.charAt(0)!='(')
+            return false;
+        char start = '(';
+        stack.push('(');
+        for(int i=1;i<st.length();i++){
+            if(st.charAt(i)=='(')
+                stack.add('(');
+            else{
+                if(stack.isEmpty())
+                    return false;
+                if(stack.peek()=='(')
+                    stack.pop();
+                else
+                    return false;
+            }
+        }
+        if(!stack.isEmpty())
+            return false;
+        else
+            return true;
+    }
+    public String[] StringSlice(String st){
+        String[] temp = new String[2];
+        int cntLeft =0;
+        int cntRight = 0;
+        int pos =-1;
+        for(int i=0;i<st.length();i++){
+            if(st.charAt(i)=='(')
+                cntLeft++;
+            else
+                cntRight++;
+            if(cntLeft==cntRight) {
+                pos = i;
                 break;
             }
-            char tempChar = st.charAt(i);
-            if(tempChar =='(')
-                countLeft++;
-            else
-                countRight++;
-            u.add(tempChar);
         }
-        for(int i=vStartPoint;i<st.length();i++){
-            v.add(st.charAt(i));
+        temp[0] = st.substring(0,pos+1);
+        temp[1] = st.substring(pos+1);
+        return temp;
+    }
+    public String flipString(String st){
+        String res ="";
+        for(int i=0;i<st.length();i++){
+            if(st.charAt(i)=='(')
+                res+=')';
+            else
+                res+='(';
+        }
+        return res;
+    }
+    public String totalFlow(String st){
+        if(isNul(st)){
+            return "";
+        }
+        if(isOptimal(st))
+            return st;
+        String[] stUV;
+        stUV = StringSlice(st);
+        String u = stUV[0];
+        String v = stUV[1];
+        if(isOptimal(u)){
+            String res = totalFlow(v);
+            u+=res;
+            return u;
+        }
+        else{
+            String temp = "(";
+            String res = totalFlow(v);
+            temp+=res;
+            temp+=")";
+            u = u.substring(1,u.length()-1);
+            u = flipString(u);
+            temp +=u;
+            return temp;
         }
     }
 
     public String solution(String p) {
-        u = new ArrayList<>();
-        v = new ArrayList<>();
-        Stack<Character> temp = new Stack<>();
-        String st = p;
-        if(!checkGoodSt(st)){
-            getUandV(st);
-            String stringU ="";
-            String stringV = "";
-            for(int i=0;i<u.size();i++){
-                stringU+=u.get(i);
-            }
-            for(int i=0;i<v.size();i++){
-                stringV+=v.get(i);
-            }
-
-        }
-
-
-        for(int i=0;i<u.size();i++)
-            System.out.print(u.get(i));
-        System.out.println();
-        for(int i=0;i<v.size();i++)
-            System.out.print(v.get(i));
-        String answer = "";
-        return answer;
+        return totalFlow(p);
     }
 }
