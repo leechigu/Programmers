@@ -1,84 +1,88 @@
 public class 양궁대회 {
+    public static int[] max = new int[11];
+    public static int totalMax = -1;
 
-    public static int[] lion ;
-    public static int[] apeach;
-    public static int cnt;
-    public static int max =-1;
-    public static int[] maxTarget=  new int[11];
-    public static int x = 0;
+    public static void dfs(int[] lion,int[] appeach,int n, int cur){
 
-
-    public static void dfs(int depth){
-        if(depth == cnt){
-            total();
+        if(n==cur){
+            check(lion,appeach);
             return;
         }
-        for(int i=x;i<11;i++){
+
+
+        for(int i=0;i<11 && lion[i]<=appeach[i];i++){
+
             lion[i]++;
-            dfs(depth+1);
+            dfs(lion,appeach,n,cur+1);
             lion[i]--;
         }
+
     }
 
-    public static void total(){
-        int lionScore=0;
-        int apeachScore=0;
-        for(int i=x;i<11;i++){
-            if(lion[i]==0&&apeach[i]==0)
-                continue;
-            if(lion[i]>apeach[i])
-                lionScore+=10-i;
-            else
-                apeachScore+=10-i;
+    public static void check(int[] lion,int[] appeach){
+        int lionTotal = 0;
+        int appeachTotal = 0;
+        for(int i=0;i<10;i++){
+            if(lion[i]>appeach[i])
+                lionTotal+=10-i;
+            else if(appeach[i]>0 && appeach[i]>=lion[i])
+                appeachTotal+=10-i;
+
         }
-        if(apeachScore>=lionScore){
+
+        int gap = lionTotal-appeachTotal;
+
+        if(gap<=0)
             return;
-        }
-        if(lionScore-apeachScore>max) {
-            max = lionScore-apeachScore;
-            for(int i=0;i<11;i++)
-                maxTarget[i] = lion[i];
-        }
-        else if(lionScore-apeachScore == max && max>-1){
+        if(gap==totalMax){
+            boolean isMax = false;
             for(int i=10;i>=0;i--){
-                if(lion[i]>maxTarget[i]){
-                    for(int j=0;j<11;j++){
-                        maxTarget[j] = lion[j];
-                    }
+                if(lion[i]>max[i]){
+                    isMax = true;
                     break;
                 }
-
+                else if (lion[i]<max[i])
+                    break;
+            }
+            if(isMax){
+                for(int i=0;i<11;i++){
+                    max[i] = lion[i];
+                }
             }
         }
+        else if(gap>totalMax){
+            totalMax = gap;
+            for(int i=0;i<11;i++){
+                max[i] = lion[i];
+            }
+        }
+
     }
+
+
     public int[] solution(int n, int[] info) {
-        lion = new int[11];
+
+        int[] lion = new int[11];
+        int[] appeach = new int[11];
+
+        for(int i=0;i<lion.length;i++){
+            lion[i] = 0;
+            appeach[i] = info[i];
+        }
+
+
+        dfs(lion,appeach,n,0);
+
+        int cnt =0;
         for(int i=0;i<11;i++)
-            lion[i] =0;
+            cnt+=max[i];
+        if(cnt==0){
+            int[] rtn = {-1};
+            return rtn;
+        }
 
-        apeach = info;
-        cnt =n;
-        for(int i=0;i<11;i++){
-            if(apeach[i]==0||apeach[i]==1){
-                if(cnt==0){
-                    x = i;
-                    break;
-                }
 
-                cnt--;
-                lion[i]++;
-            }
-            else
-                break;
-        }
-        System.out.println(cnt);
-        dfs(0);
-        if(max<=0){
-            return new int[]{-1};
-        }
-        else{
-            return maxTarget;
-        }
+        return max;
     }
 
 }

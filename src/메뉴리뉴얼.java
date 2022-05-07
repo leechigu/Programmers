@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+
+
 
 public class 메뉴리뉴얼 {
-
 
     public static String[] ords;
     public static HashMap<String,Integer> hashMap;
@@ -104,6 +104,7 @@ public class 메뉴리뉴얼 {
             }
             arr[i] = max;
         }
+
         ArrayList<String> rtnList = new ArrayList<>();
 
         for(int i=0;i<arr.length;i++){
