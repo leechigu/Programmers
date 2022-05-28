@@ -2,21 +2,63 @@ import java.util.*;
 
 public class 다리를지나는트럭 {
 
-    public int solution(int bridge_length, int weight, int[] truck_weights) {
-
-        Queue<Integer> queue = new LinkedList<>();
-
-        for(int i=0;i<bridge_length;i++)
-        {
-            queue.add(0);
+    public static int solution(int bridge_length, int weight, int[] truck_weights) {
+        Stack<Integer> stack = new Stack<>();
+        for(int i=truck_weights.length-1;i>=0;i--){
+            stack.push(truck_weights[i]);
         }
-        int sum =0;
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0;i<bridge_length;i++)
+            queue.add(0);
+        int truck = stack.pop();
+        queue.add(truck);
 
-        Arrays.sort(truck_weights);
-        System.out.println(truck_weights[0]);
+        boolean t = true;
+        queue.poll();
+        int size = queue.size();
 
-        System.out.println(queue.size());
-        int answer = 0;
+        int totalWeight = truck;
+        int answer = 1;
+        while(true){
+            if(!stack.isEmpty()){
+                if (totalWeight + stack.peek() <= weight) {
+                    totalWeight-=queue.poll();
+                    int temp = stack.pop();
+                    queue.add(temp);
+                    totalWeight +=temp;
+                }
+                else{
+                    if(stack.peek()+totalWeight- queue.peek()<=weight){
+                        int temp = queue.poll();
+                        totalWeight-=temp;
+                        int x = stack.pop();
+                        queue.add(x);
+                        totalWeight+=x;
+                    }
+                    else{
+                        int temp = queue.poll();
+                        totalWeight-=temp;
+                        queue.add(0);
+                    }
+                }
+                answer++;
+            }
+
+            if(stack.isEmpty()){
+                answer+=bridge_length;
+                break;
+            }
+        }
+
         return answer;
+
+    }
+
+    public static void main(String[] args) {
+        int bridge_length = 2;
+        int weight = 10;
+        int[] truck_weights = {7,4,5,6};
+        int t = solution(bridge_length,weight,truck_weights);
+        System.out.println(t);
     }
 }
