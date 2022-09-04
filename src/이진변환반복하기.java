@@ -9,7 +9,6 @@ public class 이진변환반복하기 {
         int seqNum = 0;
         int delZeroCnt = 0;
 
-
         while(true){
             if(number.equals("1")){
                 break;
@@ -21,7 +20,6 @@ public class 이진변환반복하기 {
                     zeroCnt++;
                 }
             }
-
             number = number.replace("0","");
             delZeroCnt+=zeroCnt;
 
