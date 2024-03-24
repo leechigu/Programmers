@@ -1,5 +1,6 @@
 package 백준;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.io.*;
 
@@ -56,6 +57,8 @@ public class 백준20920 {
         for(String str : ans){
             bw.write(str+"\n");
         }
+
+        String a = "dassdd";
 
         bw.flush();
         bw.close();

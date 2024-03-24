@@ -1,5 +1,10 @@
 package 프로그래머스.LEVEL3;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class 곰과은운반하기 {
 
 
@@ -30,14 +35,24 @@ public class 곰과은운반하기 {
     }
 
 
+    public void temp(){
+
+        String[] arr = new String[10];
+        Arrays.sort(arr, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
+    }
+
 
     public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
         long high = Long.MAX_VALUE;
         long low = 0;
 
         while(low+1>high){
-
-
             long mid = (high+low)/2;
 
             if(isPossible(mid,a,b,g,s,w,t))

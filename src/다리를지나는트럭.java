@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.*;
 
 public class 다리를지나는트럭 {
@@ -58,7 +59,12 @@ public class 다리를지나는트럭 {
         int bridge_length = 2;
         int weight = 10;
         int[] truck_weights = {7,4,5,6};
-        int t = solution(bridge_length,weight,truck_weights);
-        System.out.println(t);
+
+        BigInteger tem = new BigInteger("36");
+        BigInteger tem2 = new BigInteger("15");
+
+        String dd = Integer.toString(100,3);
+
+        System.out.println(Integer.parseInt(dd));
     }
 }
